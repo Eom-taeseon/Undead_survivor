@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -12,20 +13,13 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        rigid = GetComponent<Rigidbody2D>();
+        rigid = GetComponent<Rigidbody2D>(); // Rigidbody Collider
     }
 
     // Start is called before the first frame update
     void Start()
     {
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        inputVec.x = Input.GetAxisRaw("Horizontal");
-        inputVec.y = Input.GetAxisRaw("Vertical");
     }
 
     private void FixedUpdate()
@@ -37,9 +31,14 @@ public class Player : MonoBehaviour
         //rigid.velocity = inputVec;
 
 
-        Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
+        Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
 
         // 3. Move Position
         rigid.MovePosition(rigid.position + nextVec);
+    }
+
+    private void OnMove(InputValue value)
+    {
+        inputVec = value.Get<Vector2>();
     }
 }
