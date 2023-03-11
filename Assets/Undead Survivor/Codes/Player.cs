@@ -10,10 +10,14 @@ public class Player : MonoBehaviour
     public float speed;
 
     Rigidbody2D rigid;
+    SpriteRenderer spriter;
+    Animator anim;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>(); // Rigidbody Collider
+        spriter = GetComponent<SpriteRenderer>(); // Sprite 
+        anim = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -41,4 +45,16 @@ public class Player : MonoBehaviour
     {
         inputVec = value.Get<Vector2>();
     }
+
+    private void LateUpdate()
+    {
+        anim.SetFloat("Speed", inputVec.magnitude);
+
+        if (inputVec.x != 0) // 왼쪽과 오른쪽이 반대일 때
+        {
+            //spriter.flipX = true;
+            spriter.flipX = inputVec.x < 0;
+        }
+    }
+
 }
