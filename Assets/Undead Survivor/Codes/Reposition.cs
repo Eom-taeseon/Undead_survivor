@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
+    Collider2D coll;
+
+    private void Awake()
+    {
+        coll = GetComponent<Collider2D>(); // Collider2D는 기본 도형의 모든 collider2D를 포함
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Area")) // collision의 campareTag가 Area가 아니라면 아무것도 실행 안함
@@ -48,6 +54,10 @@ public class NewBehaviourScript : MonoBehaviour
 
             // transform.tag가 Enemy인 경우
             case "Enemy":
+                if (coll.enabled)
+                {
+                    transform.Translate(playerDir * 20 + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f));
+                }
                 break;
         }
     }
